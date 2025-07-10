@@ -1,5 +1,5 @@
 import React from 'react';
-import { BarChart3, Database, Settings, AlertTriangle, TrendingUp, Sparkles } from 'lucide-react';
+import { BarChart3, Database, Settings, AlertTriangle, TrendingUp } from 'lucide-react';
 
 interface NavigationProps {
   activeTab: string;
@@ -16,7 +16,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, setActiveTab }) => {
   ];
 
   return (
-    <nav className="nav-gradient shadow-lg">
+    <nav className="bg-white border-b-2 border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex space-x-1">
           {tabs.map(tab => {
@@ -26,30 +26,23 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, setActiveTab }) => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`relative flex items-center px-6 py-4 text-sm font-medium transition-all duration-300 group ${
+                className={`nav-tab relative flex items-center px-6 py-4 text-sm font-semibold transition-all duration-300 group ${
                   isActive
-                    ? 'text-white'
-                    : 'text-slate-300 hover:text-white'
+                    ? 'active'
+                    : ''
                 }`}
               >
-                {isActive && (
-                  <div className={`absolute inset-0 bg-gradient-to-r ${tab.color} rounded-t-lg shadow-lg`}>
-                    <div className="absolute inset-0 bg-white bg-opacity-10 rounded-t-lg"></div>
-                  </div>
-                )}
                 <div className="relative flex items-center">
-                  <Icon className={`h-4 w-4 mr-2 ${isActive ? 'animate-pulse' : 'group-hover:scale-110'} transition-transform duration-200`} />
-                  {tab.label}
-                  {isActive && <Sparkles className="h-3 w-3 ml-2 text-yellow-300 animate-pulse" />}
+                  <Icon className={`h-5 w-5 mr-3 transition-transform duration-200 ${
+                    isActive ? 'text-blue-600' : 'text-gray-500 group-hover:text-blue-500'
+                  }`} />
+                  <span className={isActive ? 'text-gray-800' : 'text-gray-600'}>{tab.label}</span>
                   {tab.id === 'alerts' && (
-                    <div className="ml-2 px-2 py-1 bg-red-500 text-xs font-bold text-white rounded-full animate-bounce">
+                    <div className="alert-badge ml-3 min-w-[1.5rem] h-6 flex items-center justify-center text-xs">
                       3
                     </div>
                   )}
                 </div>
-                {!isActive && (
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-50 transition-opacity"></div>
-                )}
               </button>
             );
           })}

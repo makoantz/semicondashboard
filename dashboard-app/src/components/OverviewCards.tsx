@@ -71,21 +71,21 @@ const OverviewCards: React.FC<OverviewCardsProps> = ({ metrics }) => {
         const TrendIcon = card.trend === 'up' ? TrendingUp : TrendingDown;
         
         return (
-          <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div key={index} className="enhanced-card rounded-xl p-6">
             <div className="flex items-center justify-between mb-4">
-              <div className={`p-3 rounded-lg ${card.bgColor}`}>
-                <Icon className={`h-6 w-6 ${card.color}`} />
+              <div className={`p-3 rounded-xl ${card.bgColor} shadow-sm border`}>
+                <Icon className={`h-7 w-7 ${card.color}`} />
               </div>
-              <div className={`flex items-center text-sm ${
-                card.trend === 'up' ? 'text-green-600' : 'text-red-600'
+              <div className={`flex items-center text-sm font-semibold px-3 py-1 rounded-full ${
+                card.trend === 'up' ? 'text-green-700 bg-green-100' : 'text-red-700 bg-red-100'
               }`}>
                 <TrendIcon className="h-4 w-4 mr-1" />
                 {card.change}
               </div>
             </div>
             
-            <h3 className="text-sm font-medium text-gray-500 mb-1">{card.title}</h3>
-            <p className="text-2xl font-semibold text-gray-900">{card.value}</p>
+            <h3 className="text-sm font-semibold text-gray-600 mb-2">{card.title}</h3>
+            <p className="text-3xl font-bold text-gray-800">{card.value}</p>
           </div>
         );
       })}

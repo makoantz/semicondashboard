@@ -64,9 +64,9 @@ const ExecutiveView: React.FC<ExecutiveViewProps> = ({ metrics }) => {
   return (
     <div className="space-y-6">
       {/* Executive Summary */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg p-6">
-        <h2 className="text-2xl font-bold mb-2">Executive Dashboard</h2>
-        <p className="text-blue-100">Comprehensive overview of semiconductor testing operations and business performance</p>
+      <div className="executive-gradient text-white rounded-xl p-8 shadow-lg">
+        <h2 className="text-3xl font-bold mb-3">Executive Dashboard</h2>
+        <p className="text-blue-100 text-lg">Comprehensive overview of semiconductor testing operations and business performance</p>
       </div>
 
       {/* Key Performance Indicators */}
@@ -76,20 +76,24 @@ const ExecutiveView: React.FC<ExecutiveViewProps> = ({ metrics }) => {
           const TrendIcon = kpi.trend === 'up' ? TrendingUp : TrendingDown;
           
           return (
-            <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div key={index} className={`enhanced-card rounded-xl p-6 ${
+              index === 0 ? 'kpi-revenue' : 
+              index === 1 ? 'kpi-efficiency' : 
+              index === 2 ? 'kpi-quality' : 'kpi-utilization'
+            }`}>
               <div className="flex items-center justify-between mb-4">
-                <div className={`p-3 rounded-lg ${kpi.bgColor}`}>
-                  <Icon className={`h-6 w-6 ${kpi.color}`} />
+                <div className={`p-3 rounded-xl ${kpi.bgColor} shadow-sm`}>
+                  <Icon className={`h-7 w-7 ${kpi.color}`} />
                 </div>
-                <div className={`flex items-center text-sm ${
-                  kpi.trend === 'up' ? 'text-green-600' : 'text-red-600'
+                <div className={`flex items-center text-sm font-semibold px-3 py-1 rounded-full ${
+                  kpi.trend === 'up' ? 'text-green-700 bg-green-100' : 'text-red-700 bg-red-100'
                 }`}>
                   <TrendIcon className="h-4 w-4 mr-1" />
                   {kpi.change}
                 </div>
               </div>
-              <h3 className="text-sm font-medium text-gray-500 mb-1">{kpi.title}</h3>
-              <p className="text-3xl font-bold text-gray-900">{kpi.value}</p>
+              <h3 className="text-sm font-semibold text-gray-600 mb-2">{kpi.title}</h3>
+              <p className="text-3xl font-bold text-gray-800">{kpi.value}</p>
             </div>
           );
         })}
@@ -97,8 +101,8 @@ const ExecutiveView: React.FC<ExecutiveViewProps> = ({ metrics }) => {
 
       {/* Performance Trends */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">Monthly Performance Trends</h3>
+        <div className="chart-container shadow-lg">
+          <h3 className="text-xl font-bold text-gray-800 mb-6">Monthly Performance Trends</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={performanceData}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -111,8 +115,8 @@ const ExecutiveView: React.FC<ExecutiveViewProps> = ({ metrics }) => {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">Product Distribution</h3>
+        <div className="chart-container shadow-lg">
+          <h3 className="text-xl font-bold text-gray-800 mb-6">Product Distribution</h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie

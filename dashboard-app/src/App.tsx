@@ -113,7 +113,7 @@ function App() {
   }
 
   return (
-    <div className="app-background">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <div className="content-wrapper">
         <Header 
           selectedUser={selectedUserLevel} 
@@ -121,7 +121,7 @@ function App() {
         />
         <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
         
-        <main style={{ maxWidth: '1280px', margin: '0 auto', padding: '32px 16px' }}>
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {renderContent()}
         </main>
       </div>

@@ -9,8 +9,8 @@ interface PerformanceChartsProps {
 const PerformanceCharts: React.FC<PerformanceChartsProps> = ({ data }) => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Yield Trend</h3>
+      <div className="chart-container shadow-lg">
+        <h3 className="text-xl font-bold text-gray-800 mb-6">Yield Trend</h3>
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />
@@ -39,8 +39,8 @@ const PerformanceCharts: React.FC<PerformanceChartsProps> = ({ data }) => {
         </ResponsiveContainer>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Throughput Performance</h3>
+      <div className="chart-container shadow-lg">
+        <h3 className="text-xl font-bold text-gray-800 mb-6">Throughput Performance</h3>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />
