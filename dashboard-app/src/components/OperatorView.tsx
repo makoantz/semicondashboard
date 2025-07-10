@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Play, Pause, Square, Settings, AlertTriangle, CheckCircle, Clock, Thermometer } from 'lucide-react';
+import { Play, Pause, Square, Settings, AlertTriangle, CheckCircle, Clock, Thermometer, Zap, Monitor, Power } from 'lucide-react';
 import type { TestResult } from '../data/mockData';
 
 interface OperatorViewProps {
@@ -9,35 +9,37 @@ interface OperatorViewProps {
 const OperatorView: React.FC<OperatorViewProps> = ({ devices }) => {
   const [selectedStation, setSelectedStation] = useState('TS-01');
 
-  const stations = Array.from(new Set(devices.map(d => d.testStation))).map(station => {
+  const stations = Array.from(new Set(devices.map(d => d.testStation))).slice(0, 8).map(station => {
     const device = devices.find(d => d.testStation === station);
     return {
       id: station,
       name: station,
       status: device?.status || 'Pass',
-      deviceType: device?.deviceType || 'Unknown',
-      temperature: device?.temperature || 0,
-      voltage: device?.voltage || 0,
-      current: device?.current || 0,
-      isRunning: Math.random() > 0.3,
+      deviceType: device?.deviceType || 'Mobile Processor',
+      temperature: device?.temperature || Math.floor(Math.random() * 10) + 20,
+      voltage: device?.voltage || Math.floor(Math.random() * 5) + 3,
+      current: device?.current || Math.floor(Math.random() * 200) + 100,
+      isRunning: Math.random() > 0.2,
       progress: Math.floor(Math.random() * 100),
-      remainingTime: Math.floor(Math.random() * 120) + 30
+      remainingTime: Math.floor(Math.random() * 120) + 30,
+      cycleCount: Math.floor(Math.random() * 1000) + 500,
+      lastTest: '2 min ago'
     };
   });
 
   const currentStation = stations.find(s => s.id === selectedStation) || stations[0];
 
   const getStationStatusColor = (status: string, isRunning: boolean) => {
-    if (!isRunning) return 'bg-gray-100 text-gray-600';
+    if (!isRunning) return 'status-info-pro';
     switch (status) {
       case 'Pass':
-        return 'bg-green-100 text-green-800';
+        return 'status-success-pro';
       case 'Fail':
-        return 'bg-red-100 text-red-800';
+        return 'status-error-pro';
       case 'Retest':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'status-warning-pro';
       default:
-        return 'bg-gray-100 text-gray-600';
+        return 'status-info-pro';
     }
   };
 
@@ -51,217 +53,230 @@ const OperatorView: React.FC<OperatorViewProps> = ({ devices }) => {
       case 'Retest':
         return Clock;
       default:
-        return Settings;
+        return Monitor;
     }
   };
 
-  return (
-    <div className="space-y-6">
-      {/* Operator Dashboard Header */}
-      <div className="bg-gradient-to-r from-green-500 to-teal-600 text-white rounded-lg p-6">
-        <h2 className="text-2xl font-bold mb-2">Operator Control Panel</h2>
-        <p className="text-green-100">Equipment operation, monitoring, and basic system controls</p>
-      </div>
+  const handleStationControl = (action: string) => {
+    console.log(`${action} action on station ${selectedStation}`);
+    // Station control logic would go here
+  };
 
-      {/* Station Selection */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Test Station Selection</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
-          {stations.map((station) => {
-            const StatusIcon = getStatusIcon(station.status, station.isRunning);
-            return (
-              <button
-                key={station.id}
-                onClick={() => setSelectedStation(station.id)}
-                className={`p-3 rounded-lg border-2 transition-all duration-200 ${
-                  selectedStation === station.id
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 hover:border-gray-300'
-                }`}
-              >
-                <div className="flex flex-col items-center space-y-2">
-                  <StatusIcon className={`h-6 w-6 ${
-                    station.isRunning 
-                      ? station.status === 'Pass' ? 'text-green-600' 
-                        : station.status === 'Fail' ? 'text-red-600' 
-                        : 'text-yellow-600'
-                      : 'text-gray-400'
-                  }`} />
-                  <span className="text-xs font-medium">{station.name}</span>
-                  <span className={`text-xs px-2 py-1 rounded-full ${getStationStatusColor(station.status, station.isRunning)}`}>
-                    {station.isRunning ? 'Running' : 'Idle'}
-                  </span>
-                </div>
-              </button>
-            );
-          })}
+  return (
+    <div className="space-y-8">
+      {/* Operator Dashboard Header */}
+      <div className="bg-gradient-to-r from-indigo-600 to-purple-700 text-white rounded-2xl p-8 shadow-floating">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-3xl font-bold mb-2">Operator Control Center</h2>
+            <p className="text-indigo-100">Real-time station monitoring and test execution control</p>
+          </div>
+          <div className="flex items-center space-x-6">
+            <div className="text-center">
+              <div className="text-2xl font-bold">{stations.filter(s => s.isRunning).length}</div>
+              <div className="text-xs text-indigo-200">Active Stations</div>
+            </div>
+            <div className="w-px h-12 bg-indigo-400 opacity-50"></div>
+            <div className="text-center">
+              <div className="text-2xl font-bold">{stations.reduce((sum, s) => sum + s.cycleCount, 0)}</div>
+              <div className="text-xs text-indigo-200">Total Cycles</div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Current Station Control */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">Station {currentStation.name} - Control Panel</h3>
+      {/* Station Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {stations.map((station) => {
+          const StatusIcon = getStatusIcon(station.status, station.isRunning);
+          const isSelected = station.id === selectedStation;
           
-          {/* Station Status */}
-          <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-            <div className="flex items-center justify-between mb-4">
-              <h4 className="font-medium text-gray-900">Current Test</h4>
-              <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStationStatusColor(currentStation.status, currentStation.isRunning)}`}>
-                {currentStation.isRunning ? 'Running' : 'Idle'}
-              </span>
+          return (
+            <div 
+              key={station.id} 
+              className={`card-premium cursor-pointer transition-all duration-300 hover:scale-105 ${
+                isSelected ? 'ring-2 ring-primary-500 shadow-lg' : ''
+              }`}
+              onClick={() => setSelectedStation(station.id)}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-bold text-slate-800">{station.name}</h3>
+                <span className={`status-badge-pro ${getStationStatusColor(station.status, station.isRunning)} flex items-center`}>
+                  <StatusIcon className="h-3 w-3 mr-1" />
+                  {station.isRunning ? station.status : 'Idle'}
+                </span>
+              </div>
+              
+              <div className="space-y-3 text-sm">
+                <div>
+                  <p className="text-slate-600 mb-1">Device Type</p>
+                  <p className="font-medium text-slate-800 truncate">{station.deviceType}</p>
+                </div>
+                
+                {station.isRunning && (
+                  <>
+                    <div>
+                      <div className="flex justify-between text-xs text-slate-600 mb-1">
+                        <span>Progress</span>
+                        <span>{station.progress}%</span>
+                      </div>
+                      <div className="bg-slate-200 rounded-full h-2 overflow-hidden">
+                        <div 
+                          className="bg-gradient-to-r from-primary-500 to-primary-600 h-2 rounded-full transition-all duration-500"
+                          style={{ width: `${station.progress}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex justify-between">
+                      <span className="text-slate-600">Remaining:</span>
+                      <span className="font-medium text-slate-800">{station.remainingTime}min</span>
+                    </div>
+                  </>
+                )}
+                
+                <div className="flex justify-between">
+                  <span className="text-slate-600">Cycles:</span>
+                  <span className="font-medium text-slate-800">{station.cycleCount}</span>
+                </div>
+              </div>
             </div>
+          );
+        })}
+      </div>
+
+      {/* Station Control Panel */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 card-premium">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-heading-md text-slate-800 flex items-center">
+              <Monitor className="h-5 w-5 mr-2 text-primary-600" />
+              Station Control - {currentStation.name}
+            </h3>
+            <div className="flex space-x-2">
+              <button 
+                onClick={() => handleStationControl('start')}
+                className="btn-pro bg-success-600 text-white hover:bg-success-700 flex items-center"
+                disabled={currentStation.isRunning}
+              >
+                <Play className="h-4 w-4 mr-1" />
+                Start
+              </button>
+              <button 
+                onClick={() => handleStationControl('pause')}
+                className="btn-pro bg-warning-600 text-white hover:bg-warning-700 flex items-center"
+                disabled={!currentStation.isRunning}
+              >
+                <Pause className="h-4 w-4 mr-1" />
+                Pause
+              </button>
+              <button 
+                onClick={() => handleStationControl('stop')}
+                className="btn-pro bg-danger-600 text-white hover:bg-danger-700 flex items-center"
+              >
+                <Square className="h-4 w-4 mr-1" />
+                Stop
+              </button>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 text-center">
+              <Thermometer className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+              <p className="text-sm text-blue-700 mb-1">Temperature</p>
+              <p className="text-xl font-bold text-blue-900">{currentStation.temperature}°C</p>
+              <div className="text-xs text-blue-600 mt-1">
+                {currentStation.temperature > 25 ? 'High' : 'Normal'}
+              </div>
+            </div>
+            
+            <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 text-center">
+              <Zap className="h-8 w-8 text-green-600 mx-auto mb-2" />
+              <p className="text-sm text-green-700 mb-1">Voltage</p>
+              <p className="text-xl font-bold text-green-900">{currentStation.voltage}V</p>
+              <div className="text-xs text-green-600 mt-1">Stable</div>
+            </div>
+            
+            <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 text-center">
+              <Power className="h-8 w-8 text-purple-600 mx-auto mb-2" />
+              <p className="text-sm text-purple-700 mb-1">Current</p>
+              <p className="text-xl font-bold text-purple-900">{currentStation.current}mA</p>
+              <div className="text-xs text-purple-600 mt-1">Normal</div>
+            </div>
+            
+            <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-4 text-center">
+              <Clock className="h-8 w-8 text-orange-600 mx-auto mb-2" />
+              <p className="text-sm text-orange-700 mb-1">Runtime</p>
+              <p className="text-xl font-bold text-orange-900">4.2h</p>
+              <div className="text-xs text-orange-600 mt-1">Active</div>
+            </div>
+          </div>
+
+          {/* Device Details */}
+          <div className="bg-slate-50 rounded-xl p-6">
+            <h4 className="font-semibold text-slate-800 mb-4">Current Device Under Test</h4>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <span className="text-gray-500">Device Type:</span>
-                <p className="font-medium">{currentStation.deviceType}</p>
+                <span className="text-slate-600">Type:</span>
+                <p className="font-medium text-slate-800">{currentStation.deviceType}</p>
               </div>
               <div>
-                <span className="text-gray-500">Remaining Time:</span>
-                <p className="font-medium">{currentStation.remainingTime} min</p>
+                <span className="text-slate-600">Status:</span>
+                <p className="font-medium text-slate-800">{currentStation.status}</p>
               </div>
-            </div>
-            
-            {/* Progress Bar */}
-            <div className="mt-4">
-              <div className="flex justify-between text-sm text-gray-600 mb-1">
-                <span>Test Progress</span>
-                <span>{currentStation.progress}%</span>
+              <div>
+                <span className="text-slate-600">Last Test:</span>
+                <p className="font-medium text-slate-800">{currentStation.lastTest}</p>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
-                  className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${currentStation.progress}%` }}
-                ></div>
+              <div>
+                <span className="text-slate-600">Cycle Count:</span>
+                <p className="font-medium text-slate-800">{currentStation.cycleCount}</p>
               </div>
-            </div>
-          </div>
-
-          {/* Control Buttons */}
-          <div className="grid grid-cols-3 gap-4 mb-6">
-            <button 
-              className={`flex items-center justify-center p-4 rounded-lg border-2 transition-all duration-200 ${
-                currentStation.isRunning 
-                  ? 'border-gray-300 bg-gray-100 text-gray-400 cursor-not-allowed'
-                  : 'border-green-500 bg-green-50 text-green-700 hover:bg-green-100'
-              }`}
-              disabled={currentStation.isRunning}
-            >
-              <Play className="h-6 w-6 mr-2" />
-              Start Test
-            </button>
-            
-            <button 
-              className={`flex items-center justify-center p-4 rounded-lg border-2 transition-all duration-200 ${
-                currentStation.isRunning 
-                  ? 'border-yellow-500 bg-yellow-50 text-yellow-700 hover:bg-yellow-100'
-                  : 'border-gray-300 bg-gray-100 text-gray-400 cursor-not-allowed'
-              }`}
-              disabled={!currentStation.isRunning}
-            >
-              <Pause className="h-6 w-6 mr-2" />
-              Pause
-            </button>
-            
-            <button className="flex items-center justify-center p-4 rounded-lg border-2 border-red-500 bg-red-50 text-red-700 hover:bg-red-100 transition-all duration-200">
-              <Square className="h-6 w-6 mr-2" />
-              Stop
-            </button>
-          </div>
-
-          {/* Equipment Parameters */}
-          <div className="grid grid-cols-3 gap-4">
-            <div className="p-3 bg-blue-50 rounded-lg">
-              <div className="flex items-center text-blue-600 mb-1">
-                <Thermometer className="h-4 w-4 mr-1" />
-                <span className="text-xs font-medium">Temperature</span>
-              </div>
-              <p className="text-lg font-bold text-blue-900">{currentStation.temperature}°C</p>
-              <p className="text-xs text-blue-600">Normal Range</p>
-            </div>
-            <div className="p-3 bg-purple-50 rounded-lg">
-              <div className="flex items-center text-purple-600 mb-1">
-                <Settings className="h-4 w-4 mr-1" />
-                <span className="text-xs font-medium">Voltage</span>
-              </div>
-              <p className="text-lg font-bold text-purple-900">{currentStation.voltage}V</p>
-              <p className="text-xs text-purple-600">Within Spec</p>
-            </div>
-            <div className="p-3 bg-orange-50 rounded-lg">
-              <div className="flex items-center text-orange-600 mb-1">
-                <Settings className="h-4 w-4 mr-1" />
-                <span className="text-xs font-medium">Current</span>
-              </div>
-              <p className="text-lg font-bold text-orange-900">{currentStation.current}A</p>
-              <p className="text-xs text-orange-600">Stable</p>
             </div>
           </div>
         </div>
 
-        {/* System Status & Alerts */}
+        {/* Quick Actions & Alerts */}
         <div className="space-y-6">
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">System Status</h3>
+          <div className="card-premium">
+            <h4 className="font-semibold text-slate-800 mb-4 flex items-center">
+              <Settings className="h-4 w-4 mr-2 text-slate-600" />
+              Quick Actions
+            </h4>
             <div className="space-y-3">
-              <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
-                <div className="flex items-center">
-                  <CheckCircle className="h-4 w-4 text-green-600 mr-2" />
-                  <span className="text-sm text-green-800">Power Supply</span>
-                </div>
-                <span className="text-xs text-green-600">OK</span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
-                <div className="flex items-center">
-                  <CheckCircle className="h-4 w-4 text-green-600 mr-2" />
-                  <span className="text-sm text-green-800">Cooling System</span>
-                </div>
-                <span className="text-xs text-green-600">OK</span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
-                <div className="flex items-center">
-                  <Clock className="h-4 w-4 text-yellow-600 mr-2" />
-                  <span className="text-sm text-yellow-800">Calibration</span>
-                </div>
-                <span className="text-xs text-yellow-600">Due Soon</span>
-              </div>
+              <button className="w-full btn-pro bg-primary-600 text-white hover:bg-primary-700">
+                Run Calibration Test
+              </button>
+              <button className="w-full btn-pro bg-secondary-600 text-white hover:bg-secondary-700">
+                Download Logs
+              </button>
+              <button className="w-full btn-pro bg-purple-600 text-white hover:bg-purple-700">
+                Schedule Maintenance
+              </button>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Recent Alerts</h3>
+          <div className="card-premium">
+            <h4 className="font-semibold text-slate-800 mb-4 flex items-center">
+              <AlertTriangle className="h-4 w-4 mr-2 text-orange-600" />
+              Active Alerts
+            </h4>
             <div className="space-y-3">
-              <div className="flex items-start p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                <Clock className="h-4 w-4 text-yellow-500 mr-2 mt-0.5" />
-                <div>
-                  <p className="text-xs font-medium text-yellow-800">Maintenance Due</p>
-                  <p className="text-xs text-yellow-600">Station TS-03 - Scheduled for tomorrow</p>
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                <div className="flex items-center">
+                  <Thermometer className="h-4 w-4 text-yellow-600 mr-2" />
+                  <span className="text-sm font-medium text-yellow-800">TS-05 Temperature High</span>
                 </div>
+                <p className="text-xs text-yellow-600 mt-1">Current: 28.5°C (Target: &lt;26°C)</p>
               </div>
-              <div className="flex items-start p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                <Settings className="h-4 w-4 text-blue-500 mr-2 mt-0.5" />
-                <div>
-                  <p className="text-xs font-medium text-blue-800">Calibration Complete</p>
-                  <p className="text-xs text-blue-600">Station TS-06 - Ready for operation</p>
+              
+              <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+                <div className="flex items-center">
+                  <AlertTriangle className="h-4 w-4 text-red-600 mr-2" />
+                  <span className="text-sm font-medium text-red-800">TS-03 Calibration Due</span>
                 </div>
+                <p className="text-xs text-red-600 mt-1">Last calibrated: 7 days ago</p>
               </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Quick Actions</h3>
-            <div className="space-y-2">
-              <button className="w-full p-2 text-left text-sm bg-gray-50 hover:bg-gray-100 rounded transition-colors">
-                Equipment Status Report
-              </button>
-              <button className="w-full p-2 text-left text-sm bg-gray-50 hover:bg-gray-100 rounded transition-colors">
-                Test History Log
-              </button>
-              <button className="w-full p-2 text-left text-sm bg-gray-50 hover:bg-gray-100 rounded transition-colors">
-                Maintenance Schedule
-              </button>
-              <button className="w-full p-2 text-left text-sm bg-red-50 hover:bg-red-100 text-red-700 rounded transition-colors">
-                Emergency Stop All
-              </button>
             </div>
           </div>
         </div>

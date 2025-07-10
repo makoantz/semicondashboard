@@ -37,13 +37,13 @@ const EngineerView: React.FC<EngineerViewProps> = ({ devices }) => {
   const getDeviceColor = (status: 'ok' | 'potential' | 'anomaly') => {
     switch (status) {
       case 'ok':
-        return 'text-emerald-600 bg-gradient-to-br from-emerald-100 to-green-200 border-emerald-300 hover:from-emerald-200 hover:to-green-300 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30';
+        return 'card-premium bg-success-50 border-success-200 text-success-800 hover:bg-success-100';
       case 'potential':
-        return 'text-amber-600 bg-gradient-to-br from-amber-100 to-yellow-200 border-amber-300 hover:from-amber-200 hover:to-yellow-300 shadow-lg shadow-amber-500/20 hover:shadow-amber-500/30';
+        return 'card-premium bg-warning-50 border-warning-200 text-warning-800 hover:bg-warning-100';
       case 'anomaly':
-        return 'text-red-600 bg-gradient-to-br from-red-100 to-rose-200 border-red-300 hover:from-red-200 hover:to-rose-300 shadow-lg shadow-red-500/20 hover:shadow-red-500/30 animate-pulse';
+        return 'card-premium bg-danger-50 border-danger-200 text-danger-800 hover:bg-danger-100 animate-pulse-subtle';
       default:
-        return 'text-gray-600 bg-gradient-to-br from-gray-100 to-slate-200 border-gray-300 hover:from-gray-200 hover:to-slate-300 shadow-lg shadow-gray-500/20';
+        return 'card-premium bg-gray-50 border-gray-200 text-gray-800 hover:bg-gray-100';
     }
   };
 
@@ -68,103 +68,110 @@ const EngineerView: React.FC<EngineerViewProps> = ({ devices }) => {
   return (
     <div className="space-y-6">
       {/* Status Summary */}
-      <div className="bg-gradient-to-r from-white to-gray-50 rounded-xl shadow-xl border border-gray-200 p-6 backdrop-blur-sm">
+      <div className="card-premium p-6">
         <div className="flex items-center mb-6">
-          <div className="h-8 w-1 bg-gradient-to-b from-emerald-500 to-blue-500 rounded-full mr-4"></div>
+          <div className="h-8 w-1 bg-gradient-pro rounded-full mr-4"></div>
           <div>
             <h3 className="text-xl font-bold text-gray-800">Device Status Overview</h3>
             <p className="text-sm text-gray-600">Real-time monitoring of all testing stations</p>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="relative overflow-hidden bg-gradient-to-br from-emerald-500 to-green-600 rounded-xl shadow-lg p-6 text-white">
-            <div className="absolute top-0 right-0 -mt-4 -mr-4 h-16 w-16 bg-white bg-opacity-20 rounded-full"></div>
+          <div className="card-premium bg-gradient-to-br from-success-500 to-success-600 text-white p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-3xl font-bold mb-1">{statusCounts.ok || 0}</p>
-                <p className="text-emerald-100 font-medium">Devices OK</p>
-                <p className="text-xs text-emerald-200 mt-1">Operating normally</p>
+                <p className="text-success-100 font-medium">Devices OK</p>
+                <p className="text-xs text-success-200 mt-1">Operating normally</p>
               </div>
-              <CheckCircle className="h-12 w-12 text-emerald-200" />
+              <div className="icon-container-pro bg-white/20">
+                <CheckCircle className="h-8 w-8" />
+              </div>
             </div>
           </div>
-          <div className="relative overflow-hidden bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl shadow-lg p-6 text-white">
-            <div className="absolute top-0 right-0 -mt-4 -mr-4 h-16 w-16 bg-white bg-opacity-20 rounded-full"></div>
+          <div className="card-premium bg-gradient-to-br from-warning-500 to-warning-600 text-white p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-3xl font-bold mb-1">{statusCounts.potential || 0}</p>
-                <p className="text-amber-100 font-medium">Potential Issues</p>
-                <p className="text-xs text-amber-200 mt-1">Requires monitoring</p>
+                <p className="text-warning-100 font-medium">Potential Issues</p>
+                <p className="text-xs text-warning-200 mt-1">Requires monitoring</p>
               </div>
-              <Clock className="h-12 w-12 text-amber-200" />
+              <div className="icon-container-pro bg-white/20">
+                <Clock className="h-8 w-8" />
+              </div>
             </div>
           </div>
-          <div className="relative overflow-hidden bg-gradient-to-br from-red-500 to-rose-600 rounded-xl shadow-lg p-6 text-white">
-            <div className="absolute top-0 right-0 -mt-4 -mr-4 h-16 w-16 bg-white bg-opacity-20 rounded-full"></div>
+          <div className="card-premium bg-gradient-to-br from-danger-500 to-danger-600 text-white p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-3xl font-bold mb-1">{statusCounts.anomaly || 0}</p>
-                <p className="text-red-100 font-medium">Anomalies</p>
-                <p className="text-xs text-red-200 mt-1">Immediate attention</p>
+                <p className="text-danger-100 font-medium">Anomalies</p>
+                <p className="text-xs text-danger-200 mt-1">Immediate attention</p>
               </div>
-              <AlertTriangle className="h-12 w-12 text-red-200 animate-pulse" />
+              <div className="icon-container-pro bg-white/20">
+                <AlertTriangle className="h-8 w-8" />
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Device Map */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Device Status Map</h3>
-        <div className="relative bg-gray-50 rounded-lg h-96 overflow-hidden">
+      {/* Device Status Map */}
+      <div className="card-premium p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+          <div className="icon-container-pro bg-primary-100 mr-3">
+            <Cpu className="h-5 w-5 text-primary-600" />
+          </div>
+          Device Status Map
+        </h3>
+        <div className="relative bg-gray-50 rounded-xl h-96 overflow-hidden border">
           {/* Grid lines for reference */}
           <div className="absolute inset-0 opacity-20">
-            <svg className="w-full h-full">
-              <defs>
-                <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
-                  <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#9CA3AF" strokeWidth="1"/>
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#grid)" />
-            </svg>
+            <div className="grid grid-cols-8 grid-rows-6 h-full">
+              {Array.from({ length: 48 }).map((_, i) => (
+                <div key={i} className="border border-gray-300"></div>
+              ))}
+            </div>
           </div>
           
-          {/* Device Icons */}
-          {devices.map((device) => {
+          {/* Device positions */}
+          {devices.map((device, index) => {
             const Icon = getDeviceIcon(device.engineerStatus);
+            const row = Math.floor(index / 8);
+            const col = index % 8;
+            const left = (col * 12.5) + 6.25;
+            const top = (row * 16.67) + 8.33;
+            
             return (
               <button
                 key={device.id}
                 onClick={() => handleDeviceClick(device)}
-                className={`absolute transform -translate-x-1/2 -translate-y-1/2 p-3 rounded-full border-2 transition-all duration-200 hover:scale-110 ${getDeviceColor(device.engineerStatus)}`}
+                className={`absolute transform -translate-x-1/2 -translate-y-1/2 p-3 rounded-xl transition-all duration-200 hover:scale-110 hover:z-10 ${getDeviceColor(device.engineerStatus)}`}
                 style={{
-                  left: `${Math.min(Math.max(device.position.x, 30), 570)}px`,
-                  top: `${Math.min(Math.max(device.position.y, 30), 350)}px`
+                  left: `${left}%`,
+                  top: `${top}%`,
                 }}
-                title={`${device.deviceType} - ${getStatusText(device.engineerStatus)}`}
+                title={`${device.deviceType} - ${device.testStation} - ${getStatusText(device.engineerStatus)}`}
               >
                 <Icon className="h-6 w-6" />
-                <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs font-medium whitespace-nowrap bg-white px-2 py-1 rounded shadow-sm border opacity-0 group-hover:opacity-100 transition-opacity">
-                  {device.testStation}
-                </div>
               </button>
             );
           })}
           
           {/* Legend */}
-          <div className="absolute bottom-4 right-4 bg-white p-3 rounded-lg shadow-sm border">
+          <div className="absolute bottom-4 right-4 card-premium p-3">
             <p className="text-xs font-medium text-gray-700 mb-2">Status Legend</p>
             <div className="space-y-1">
               <div className="flex items-center text-xs">
-                <CheckCircle className="h-3 w-3 text-green-600 mr-1" />
+                <CheckCircle className="h-3 w-3 text-success-600 mr-2" />
                 <span>OK</span>
               </div>
               <div className="flex items-center text-xs">
-                <Clock className="h-3 w-3 text-yellow-600 mr-1" />
+                <Clock className="h-3 w-3 text-warning-600 mr-2" />
                 <span>Potential Issue</span>
               </div>
               <div className="flex items-center text-xs">
-                <AlertTriangle className="h-3 w-3 text-red-600 mr-1" />
+                <AlertTriangle className="h-3 w-3 text-danger-600 mr-2" />
                 <span>Anomaly</span>
               </div>
             </div>
@@ -173,8 +180,13 @@ const EngineerView: React.FC<EngineerViewProps> = ({ devices }) => {
       </div>
 
       {/* Device List */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Device Details</h3>
+      <div className="card-premium p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+          <div className="icon-container-pro bg-primary-100 mr-3">
+            <Cpu className="h-5 w-5 text-primary-600" />
+          </div>
+          Device Details
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {devices.map((device) => {
             const Icon = getDeviceIcon(device.engineerStatus);
@@ -182,18 +194,21 @@ const EngineerView: React.FC<EngineerViewProps> = ({ devices }) => {
               <button
                 key={device.id}
                 onClick={() => handleDeviceClick(device)}
-                className={`p-4 rounded-lg border text-left transition-all duration-200 hover:shadow-md ${getDeviceColor(device.engineerStatus)}`}
+                className={`p-4 text-left transition-all duration-200 hover:shadow-lg ${getDeviceColor(device.engineerStatus)}`}
               >
-                <div className="flex items-center justify-between mb-2">
-                  <Icon className="h-5 w-5" />
-                  <span className="text-xs font-medium">{device.testStation}</span>
+                <div className="flex items-center justify-between mb-3">
+                  <div className="icon-container-pro bg-white/80">
+                    <Icon className="h-4 w-4" />
+                  </div>
+                  <span className="status-badge-pro text-xs">{device.testStation}</span>
                 </div>
-                <h4 className="font-medium mb-1">{device.deviceType}</h4>
-                <p className="text-sm opacity-80 mb-1">Lot: {device.waferLot}</p>
-                <p className="text-xs font-medium">{getStatusText(device.engineerStatus)}</p>
-                <div className="mt-2 text-xs opacity-60">
-                  <span>Yield: {device.yield}% | </span>
-                  <span>Temp: {device.temperature}°C</span>
+                <h4 className="font-semibold mb-2">{device.deviceType}</h4>
+                <p className="text-sm opacity-80 mb-2">Lot: {device.waferLot}</p>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-medium">{getStatusText(device.engineerStatus)}</span>
+                  <div className="text-xs opacity-70">
+                    <span>{device.yield}% • {device.temperature}°C</span>
+                  </div>
                 </div>
               </button>
             );
