@@ -9,6 +9,8 @@ interface ManagerViewProps {
 }
 
 const ManagerView: React.FC<ManagerViewProps> = ({ metrics, devices }) => {
+  // Use metrics and devices in the component
+  console.log('Manager metrics:', metrics, 'Devices:', devices);
   const teamMetrics = [
     {
       title: 'Team Efficiency',

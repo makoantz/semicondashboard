@@ -8,17 +8,17 @@ interface NavigationProps {
 
 const Navigation: React.FC<NavigationProps> = ({ activeTab, setActiveTab }) => {
   const tabs = [
-    { id: 'overview', label: 'Overview', icon: BarChart3, color: 'from-cyan-500 to-blue-500' },
-    { id: 'performance', label: 'Performance', icon: TrendingUp, color: 'from-green-500 to-emerald-500' },
-    { id: 'test-results', label: 'Test Results', icon: Database, color: 'from-purple-500 to-violet-500' },
-    { id: 'alerts', label: 'Alerts', icon: AlertTriangle, color: 'from-red-500 to-rose-500' },
-    { id: 'settings', label: 'Settings', icon: Settings, color: 'from-gray-500 to-slate-500' }
+    { id: 'overview', label: 'Overview', icon: BarChart3 },
+    { id: 'performance', label: 'Performance', icon: TrendingUp },
+    { id: 'test-results', label: 'Test Results', icon: Database },
+    { id: 'alerts', label: 'Alerts', icon: AlertTriangle },
+    { id: 'settings', label: 'Settings', icon: Settings }
   ];
 
   return (
-    <nav className="bg-white border-b-2 border-gray-200 shadow-sm">
+    <nav className="bg-white shadow-sm border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex space-x-1">
+        <div className="flex space-x-2">
           {tabs.map(tab => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -26,23 +26,18 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, setActiveTab }) => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`nav-tab relative flex items-center px-6 py-4 text-sm font-semibold transition-all duration-300 group ${
-                  isActive
-                    ? 'active'
-                    : ''
-                }`}
+                className={`flex items-center px-4 py-3 text-sm font-medium rounded-t-lg border-b-2 transition-all duration-200 outline-none ${isActive
+                    ? 'border-primary-500 text-primary-600 bg-primary-50'
+                    : 'border-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-100'
+                  } group`}
               >
-                <div className="relative flex items-center">
-                  <Icon className={`h-5 w-5 mr-3 transition-transform duration-200 ${
-                    isActive ? 'text-blue-600' : 'text-gray-500 group-hover:text-blue-500'
-                  }`} />
-                  <span className={isActive ? 'text-gray-800' : 'text-gray-600'}>{tab.label}</span>
-                  {tab.id === 'alerts' && (
-                    <div className="alert-badge ml-3 min-w-[1.5rem] h-6 flex items-center justify-center text-xs">
-                      3
-                    </div>
-                  )}
-                </div>
+                <Icon className={`h-5 w-5 mr-2 transition-all duration-200 ${isActive ? 'text-primary-500' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                {tab.label}
+                {tab.id === 'alerts' && (
+                  <span className="ml-2 flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full">
+                    3
+                  </span>
+                )}
               </button>
             );
           })}

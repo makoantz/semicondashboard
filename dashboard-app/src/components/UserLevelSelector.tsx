@@ -28,36 +28,6 @@ const UserLevelSelector: React.FC<UserLevelSelectorProps> = ({
     }
   };
 
-  const getColorClass = (accessLevel: string, isSelected: boolean) => {
-    if (isSelected) {
-      switch (accessLevel) {
-        case 'executive':
-          return 'bg-gradient-to-br from-purple-600 to-purple-700 text-white border-purple-500 shadow-xl shadow-purple-500/25 scale-105';
-        case 'manager':
-          return 'bg-gradient-to-br from-blue-600 to-blue-700 text-white border-blue-500 shadow-xl shadow-blue-500/25 scale-105';
-        case 'engineer':
-          return 'bg-gradient-to-br from-emerald-600 to-emerald-700 text-white border-emerald-500 shadow-xl shadow-emerald-500/25 scale-105';
-        case 'operator':
-          return 'bg-gradient-to-br from-orange-600 to-orange-700 text-white border-orange-500 shadow-xl shadow-orange-500/25 scale-105';
-        default:
-          return 'bg-gradient-to-br from-gray-600 to-gray-700 text-white border-gray-500 shadow-xl shadow-gray-500/25 scale-105';
-      }
-    } else {
-      switch (accessLevel) {
-        case 'executive':
-          return 'bg-white text-purple-600 border-purple-200 hover:bg-gradient-to-br hover:from-purple-50 hover:to-purple-100 hover:border-purple-300 hover:shadow-lg';
-        case 'manager':
-          return 'bg-white text-blue-600 border-blue-200 hover:bg-gradient-to-br hover:from-blue-50 hover:to-blue-100 hover:border-blue-300 hover:shadow-lg';
-        case 'engineer':
-          return 'bg-white text-emerald-600 border-emerald-200 hover:bg-gradient-to-br hover:from-emerald-50 hover:to-emerald-100 hover:border-emerald-300 hover:shadow-lg';
-        case 'operator':
-          return 'bg-white text-orange-600 border-orange-200 hover:bg-gradient-to-br hover:from-orange-50 hover:to-orange-100 hover:border-orange-300 hover:shadow-lg';
-        default:
-          return 'bg-white text-gray-600 border-gray-200 hover:bg-gradient-to-br hover:from-gray-50 hover:to-gray-100 hover:border-gray-300 hover:shadow-lg';
-      }
-    }
-  };
-
   return (
     <div className="card-gradient">
       <div className="flex items-center mb-6">
