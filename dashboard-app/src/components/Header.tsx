@@ -52,31 +52,31 @@ const Header: React.FC<HeaderProps> = ({ selectedUser, onUserChange }) => {
   };
 
   return (
-    <header className="header-gradient shadow-xl border-b border-slate-700">
+    <header className="header-gradient shadow-apple-xl border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <div className="relative">
-              <Cpu className="h-8 w-8 text-cyan-400 mr-3" />
-              <Zap className="h-3 w-3 text-yellow-400 absolute -top-1 -right-1 animate-pulse" />
+              <Cpu className="h-8 w-8 text-apple-blue-400 mr-3" />
+              <Zap className="h-3 w-3 text-apple-orange-400 absolute -top-1 -right-1 animate-pulse" />
             </div>
             <div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+              <h1 className="text-xl font-bold bg-gradient-to-r from-apple-blue-400 to-apple-indigo-400 bg-clip-text text-transparent">
                 SemiConductor Testing Dashboard
               </h1>
-              <p className="text-xs text-slate-400">Advanced Semiconductor Analytics Platform</p>
+              <p className="text-xs text-apple-gray-400">Advanced Semiconductor Analytics Platform</p>
             </div>
           </div>
           
           <div className="flex items-center space-x-2">
-            <button className="p-3 text-slate-300 hover:text-cyan-400 hover:bg-slate-700 rounded-xl transition-all duration-200 relative group">
+            <button className="p-3 text-apple-gray-300 hover:text-apple-blue-400 hover:bg-apple-gray-700 rounded-xl transition-all duration-200 relative group">
               <Bell className="h-5 w-5" />
-              <div className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full border-2 border-slate-900"></div>
-              <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-slate-700 text-xs text-white rounded opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="absolute -top-1 -right-1 h-3 w-3 bg-apple-red-500 rounded-full border-2 border-apple-gray-900"></div>
+              <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-apple-gray-700 text-xs text-white rounded opacity-0 group-hover:opacity-100 transition-opacity">
                 3 Alerts
               </div>
             </button>
-            <button className="p-3 text-slate-300 hover:text-cyan-400 hover:bg-slate-700 rounded-xl transition-all duration-200 group">
+            <button className="p-3 text-apple-gray-300 hover:text-apple-blue-400 hover:bg-apple-gray-700 rounded-xl transition-all duration-200 group">
               <Settings className="h-5 w-5" />
               <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-slate-700 text-xs text-white rounded opacity-0 group-hover:opacity-100 transition-opacity">
                 Settings

@@ -37,13 +37,13 @@ const EngineerView: React.FC<EngineerViewProps> = ({ devices }) => {
   const getDeviceColor = (status: 'ok' | 'potential' | 'anomaly') => {
     switch (status) {
       case 'ok':
-        return 'text-emerald-600 bg-gradient-to-br from-emerald-100 to-green-200 border-emerald-300 hover:from-emerald-200 hover:to-green-300 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30';
+        return 'text-apple-green-800 bg-gradient-to-br from-white to-apple-green-50 border-apple-green-200 hover:from-apple-green-50 hover:to-apple-green-100 shadow-apple shadow-apple-green-500/10 hover:shadow-apple-green-500/20';
       case 'potential':
-        return 'text-amber-600 bg-gradient-to-br from-amber-100 to-yellow-200 border-amber-300 hover:from-amber-200 hover:to-yellow-300 shadow-lg shadow-amber-500/20 hover:shadow-amber-500/30';
+        return 'text-apple-orange-800 bg-gradient-to-br from-white to-apple-orange-50 border-apple-orange-200 hover:from-apple-orange-50 hover:to-apple-orange-100 shadow-apple shadow-apple-orange-500/10 hover:shadow-apple-orange-500/20';
       case 'anomaly':
-        return 'text-red-600 bg-gradient-to-br from-red-100 to-rose-200 border-red-300 hover:from-red-200 hover:to-rose-300 shadow-lg shadow-red-500/20 hover:shadow-red-500/30 animate-pulse';
+        return 'text-apple-red-800 bg-gradient-to-br from-white to-apple-red-50 border-apple-red-200 hover:from-apple-red-50 hover:to-apple-red-100 shadow-apple shadow-apple-red-500/10 hover:shadow-apple-red-500/20 animate-pulse';
       default:
-        return 'text-gray-600 bg-gradient-to-br from-gray-100 to-slate-200 border-gray-300 hover:from-gray-200 hover:to-slate-300 shadow-lg shadow-gray-500/20';
+        return 'text-apple-gray-800 bg-gradient-to-br from-white to-apple-gray-50 border-apple-gray-200 hover:from-apple-gray-50 hover:to-apple-gray-100 shadow-apple shadow-apple-gray-500/10';
     }
   };
 
@@ -68,55 +68,55 @@ const EngineerView: React.FC<EngineerViewProps> = ({ devices }) => {
   return (
     <div className="space-y-6">
       {/* Status Summary */}
-      <div className="bg-gradient-to-r from-white to-gray-50 rounded-xl shadow-xl border border-gray-200 p-6 backdrop-blur-sm">
+      <div className="bg-gradient-to-r from-white to-apple-gray-50 rounded-apple-xl shadow-apple-lg border border-apple-gray-200 p-6 backdrop-blur-sm">
         <div className="flex items-center mb-6">
-          <div className="h-8 w-1 bg-gradient-to-b from-emerald-500 to-blue-500 rounded-full mr-4"></div>
+          <div className="h-8 w-1 bg-gradient-to-b from-apple-blue-500 to-apple-indigo-500 rounded-full mr-4"></div>
           <div>
-            <h3 className="text-xl font-bold text-gray-800">Device Status Overview</h3>
-            <p className="text-sm text-gray-600">Real-time monitoring of all testing stations</p>
+            <h3 className="text-xl font-bold text-apple-gray-800">Device Status Overview</h3>
+            <p className="text-sm text-apple-gray-600">Real-time monitoring of all testing stations</p>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="relative overflow-hidden bg-gradient-to-br from-emerald-500 to-green-600 rounded-xl shadow-lg p-6 text-white">
+          <div className="relative overflow-hidden bg-gradient-to-br from-apple-green-500 to-apple-green-600 rounded-apple-xl shadow-apple-lg p-6 text-white">
             <div className="absolute top-0 right-0 -mt-4 -mr-4 h-16 w-16 bg-white bg-opacity-20 rounded-full"></div>
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-3xl font-bold mb-1">{statusCounts.ok || 0}</p>
-                <p className="text-emerald-100 font-medium">Devices OK</p>
-                <p className="text-xs text-emerald-200 mt-1">Operating normally</p>
+                <p className="text-white/90 font-medium">Devices OK</p>
+                <p className="text-xs text-white/80 mt-1">Operating normally</p>
               </div>
-              <CheckCircle className="h-12 w-12 text-emerald-200" />
+              <CheckCircle className="h-12 w-12 text-white/80" />
             </div>
           </div>
-          <div className="relative overflow-hidden bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl shadow-lg p-6 text-white">
+          <div className="relative overflow-hidden bg-gradient-to-br from-apple-orange-500 to-apple-orange-600 rounded-apple-xl shadow-apple-lg p-6 text-white">
             <div className="absolute top-0 right-0 -mt-4 -mr-4 h-16 w-16 bg-white bg-opacity-20 rounded-full"></div>
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-3xl font-bold mb-1">{statusCounts.potential || 0}</p>
-                <p className="text-amber-100 font-medium">Potential Issues</p>
-                <p className="text-xs text-amber-200 mt-1">Requires monitoring</p>
+                <p className="text-white/90 font-medium">Potential Issues</p>
+                <p className="text-xs text-white/80 mt-1">Requires monitoring</p>
               </div>
-              <Clock className="h-12 w-12 text-amber-200" />
+              <Clock className="h-12 w-12 text-white/80" />
             </div>
           </div>
-          <div className="relative overflow-hidden bg-gradient-to-br from-red-500 to-rose-600 rounded-xl shadow-lg p-6 text-white">
+          <div className="relative overflow-hidden bg-gradient-to-br from-apple-red-500 to-apple-red-600 rounded-apple-xl shadow-apple-lg p-6 text-white">
             <div className="absolute top-0 right-0 -mt-4 -mr-4 h-16 w-16 bg-white bg-opacity-20 rounded-full"></div>
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-3xl font-bold mb-1">{statusCounts.anomaly || 0}</p>
-                <p className="text-red-100 font-medium">Anomalies</p>
-                <p className="text-xs text-red-200 mt-1">Immediate attention</p>
+                <p className="text-white/90 font-medium">Anomalies</p>
+                <p className="text-xs text-white/80 mt-1">Immediate attention</p>
               </div>
-              <AlertTriangle className="h-12 w-12 text-red-200 animate-pulse" />
+              <AlertTriangle className="h-12 w-12 text-white/80 animate-pulse" />
             </div>
           </div>
         </div>
       </div>
 
       {/* Device Map */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Device Status Map</h3>
-        <div className="relative bg-gray-50 rounded-lg h-96 overflow-hidden">
+      <div className="bg-white/80 backdrop-blur-md rounded-apple-lg shadow-apple border border-apple-gray-200 p-6">
+        <h3 className="text-lg font-medium text-apple-gray-900 mb-4">Device Status Map</h3>
+        <div className="relative bg-apple-gray-50/50 rounded-apple h-96 overflow-hidden">
           {/* Grid lines for reference */}
           <div className="absolute inset-0 opacity-20">
             <svg className="w-full h-full">
@@ -173,8 +173,8 @@ const EngineerView: React.FC<EngineerViewProps> = ({ devices }) => {
       </div>
 
       {/* Device List */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Device Details</h3>
+      <div className="bg-white/80 backdrop-blur-md rounded-apple-lg shadow-apple border border-apple-gray-200 p-6">
+        <h3 className="text-lg font-medium text-apple-gray-900 mb-4">Device Details</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {devices.map((device) => {
             const Icon = getDeviceIcon(device.engineerStatus);
@@ -182,7 +182,7 @@ const EngineerView: React.FC<EngineerViewProps> = ({ devices }) => {
               <button
                 key={device.id}
                 onClick={() => handleDeviceClick(device)}
-                className={`p-4 rounded-lg border text-left transition-all duration-200 hover:shadow-md ${getDeviceColor(device.engineerStatus)}`}
+                className={`p-4 rounded-apple border text-left transition-all duration-200 hover:shadow-apple-lg ${getDeviceColor(device.engineerStatus)}`}
               >
                 <div className="flex items-center justify-between mb-2">
                   <Icon className="h-5 w-5" />
